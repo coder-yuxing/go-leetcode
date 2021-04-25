@@ -11,34 +11,23 @@ package two_sum
 // 你可以假定，每个数组中仅存在一种满足条件的结果，并且你不能使用同一元素两次
 //
 // 你可以以任意顺序返回结果
+//
+// Problem resolving ideas：
+//
+// create a map use to cache the value of integers array.
+// foreach the array, try to get another num from the map.
+// if it contains, return the result, otherwise cache the value
+//
+// 创建一个 map用于缓存以数值为key, Index为value的数组内容；
+// 遍历数组，尝试从 map中获取满足当前项的另一个数值，若存在则返回，不存在则将当前项存入map，
 func TwoSum(nums []int, target int) []int {
-	var result []int
-
 	var temp = make(map[int]int)
-
 	for i, num := range nums {
-		if j, ok := temp[num]; ok {
-			if target == num * 2 {
-				result = append(result, j)
-				result = append(result, i)
-				return result
-			}
-		} else {
-			temp[num] = i
+		otherNum := target - num
+		if j, ok := temp[otherNum]; ok {
+			return []int{j, i}
 		}
+		temp[num] = i
 	}
-
-	for n := range temp {
-		otherNum := target - n
-		if i, ok := temp[otherNum]; ok {
-			j := temp[n]
-			if i == j {
-				continue
-			}
-			result = append(result, i)
-			result = append(result, j)
-			break
-		}
-	}
-	return result
+	return nil
 }
